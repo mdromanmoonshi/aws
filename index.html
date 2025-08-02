@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arena Class Link Portal</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+
+        body {
+            margin: 0;
+            height: 100vh;
+            background: radial-gradient(circle at center, #0f2027, #203a43, #2c5364);
+            font-family: 'Orbitron', sans-serif;
+            color: #00ffea;
+            overflow-x: hidden;
+        }
+
+        .menu-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 3000;
+            background: transparent;
+            border: 2px solid #00ffe0;
+            color: #00ffe0;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .menu-button:hover {
+            background: rgba(0, 255, 234, 0.1);
+            transform: scale(1.1);
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            box-shadow: 2px 0 10px rgba(0, 255, 234, 0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 60px;
+            transition: left 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+            z-index: 2500;
+            overflow: hidden;
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        .sidebar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://cdn.pixabay.com/photo/2016/11/19/17/15/space-1835533_960_720.jpg') center center / cover no-repeat;
+            opacity: 0.15;
+            z-index: -1;
+            animation: starsMove 100s linear infinite;
+        }
+
+        @keyframes starsMove {
+            from {transform: translate(0, 0);}
+            to {transform: translate(20px, 20px);}
+        }
+
+        .sidebar button {
+            background: transparent;
+            border: 1px solid #00ffe0;
+            color: #00ffea;
+            padding: 10px 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 80%;
+            transition: background 0.3s ease, color 0.3s ease;
+            z-index: 2;
+        }
+
+        .sidebar button:hover {
+            background: rgba(0, 255, 234, 0.2);
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+        }
+
+        .neon-box {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px #00ffe0, 0 0 40px #00ffe0, 0 0 60px #00ffe0;
+            text-align: center;
+            width: 400px;
+        }
+
+        h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            margin-bottom: 25px;
+            background: #1f1f1f;
+            color: #00ffea;
+            outline: none;
+            box-shadow: inset 0 0 10px #00ffe0;
+        }
+
+        button.generate {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            background: #00ffea;
+            color: #000;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        button.generate:hover {
+            background: #00c9aa;
+            transform: scale(1.05);
+        }
+
+        .output-link {
+            margin-top: 25px;
+            font-size: 16px;
+            word-break: break-word;
+        }
+
+        .output-link a {
+            color: #00ffe0;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <button class="menu-button" onclick="toggleSidebar()">☰ Menu</button>
+
+    <div class="sidebar" id="sidebar">
+        <button onclick="openInNewTab(window.location.href)">Home</button>
+        <button onclick="openInNewTab('https://hw.arenaclass.stream/profile/')"> Arena Server</button>
+        <button onclick="openInNewTab('https://toolkit.arenawebsecurity.net/')">Tools</button>
+        <button onclick="openInNewTab('https://www.hackers.institute/2018/09/Ethical-Hacking-Course-Bangladesh.html')">Blog</button>
+        <button onclick="openInNewTab('https://admission.arenawebsecurity.net/')">Verify Certificate</button>
+    </div>
+
+    <div class="container">
+        <div class="neon-box">
+            <h2>Arena Class Link Portal</h2>
+            <input type="text" id="classKey" placeholder="Enter Class Key">
+            <button class="generate" onclick="openClassLink()">Generate</button>
+            <div class="output-link" id="output"></div>
+        </div>
+    </div>
+
+    <audio id="wooshSound" src="https://assets.mixkit.co/sfx/preview/mixkit-fast-swoosh-transition-1688.mp3"></audio>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const sound = document.getElementById('wooshSound');
+            sidebar.classList.toggle('active');
+            sound.currentTime = 0;
+            sound.play();
+        }
+
+        function openInNewTab(url) {
+            window.open(url, '_blank');
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.remove('active');
+        }
+
+        function openClassLink() {
+            const key = document.getElementById('classKey').value.trim();
+            if (key === '') {
+                alert('Please enter a class key.');
+                return;
+            }
+            const fullLink = `https://drive.google.com/file/d/${key}/view?usp=sharing`;
+            document.getElementById('output').innerHTML = `<a href="${fullLink}" target="_blank">Open Class Link</a>`;
+        }
+
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const menuButton = document.querySelector('.menu-button');
+            if (!sidebar.contains(event.target) && !menuButton.contains(event.target)) {
+                sidebar.classList.remove('active');
+            }
+        });
+    </script>
+
+</body>
+</html>
